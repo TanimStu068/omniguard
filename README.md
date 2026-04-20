@@ -172,9 +172,6 @@ Select V1 and V2 signature versions
 
 Click Finish
 
-📝 License
-This project is for ArvyaX Flutter Developer Assignment and Samsung Galaxy Store Submission.
-
 📧 Contact
 Developer: Tanim Mahmud
 

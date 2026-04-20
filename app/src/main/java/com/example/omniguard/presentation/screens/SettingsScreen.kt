@@ -6,7 +6,6 @@ import android.net.Uri
 import android.os.Build
 import android.provider.Settings
 import android.widget.Toast
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
@@ -20,6 +19,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.omniguard.BuildConfig
 import com.example.omniguard.utils.PermissionHelper
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -105,7 +105,7 @@ fun SettingsScreen(
                 SettingsItem(
                     icon = Icons.Default.Info,
                     title = "About OmniGuard",
-                    description = "Version 1.0.1",
+                    description = "Version ${BuildConfig.VERSION_NAME}",
                     onClick = {
                         navController.navigate("about")
                     }
@@ -164,11 +164,11 @@ fun SettingsScreen(
                 SettingsItem(
                     icon = Icons.Default.SystemUpdate,
                     title = "Check for Updates",
-                    description = if (isCheckingUpdates) "Checking..." else "Version 1.0.0",
+                    description = if (isCheckingUpdates) "Checking..." else "Version ${BuildConfig.VERSION_NAME}",
                     onClick = {
                         if (isCheckingUpdates) return@SettingsItem
                         isCheckingUpdates = true
-                        checkForUpdates(context) { hasUpdate, latestVersion, releaseNotes ->
+                        checkForUpdates { hasUpdate, latestVersion, releaseNotes ->
                             isCheckingUpdates = false
                             if (hasUpdate && latestVersion != null) {
                                 updateInfo = Pair(latestVersion, releaseNotes ?: "New version available")
@@ -278,7 +278,7 @@ fun ReportIssueDialog(
                         readOnly = true,
                         label = { Text("Issue Type") },
                         trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
-                        modifier = Modifier.menuAnchor().fillMaxWidth(),
+                        modifier = Modifier.menuAnchor(MenuAnchorType.PrimaryNotEditable).fillMaxWidth(),
                         colors = ExposedDropdownMenuDefaults.outlinedTextFieldColors()
                     )
                     ExposedDropdownMenu(
@@ -330,9 +330,8 @@ fun ReportIssueDialog(
                             fontWeight = FontWeight.Bold
                         )
                         Text(
-                            text = "• Device: ${Build.MANUFACTURER} ${Build.MODEL}\n• Android: ${Build.VERSION.RELEASE}\n• App Version: 1.0.0",
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f)
+                            text = "Model: ${Build.MODEL}, Android: ${Build.VERSION.RELEASE}",
+                            style = MaterialTheme.typography.labelSmall
                         )
                     }
                 }
@@ -344,7 +343,8 @@ fun ReportIssueDialog(
                     if (issueTitle.isNotBlank() && issueDescription.isNotBlank()) {
                         onConfirm(ReportData(selectedType, issueTitle, issueDescription))
                     }
-                }
+                },
+                enabled = issueTitle.isNotBlank() && issueDescription.isNotBlank()
             ) {
                 Text("Next")
             }
@@ -364,59 +364,57 @@ fun ReportMethodDialog(
 ) {
     val context = LocalContext.current
     
-    val deviceInfo = """
-        Issue Type: ${reportData.type}
-        Title: ${reportData.title}
-        
-        Description:
-        ${reportData.description}
-        
-        --- Device Information ---
-        Device: ${Build.MANUFACTURER} ${Build.MODEL}
-        Android Version: ${Build.VERSION.RELEASE} (API ${Build.VERSION.SDK_INT})
-        App Version: 1.0.0
-    """.trimIndent()
-
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Choose Method") },
-        text = { Text("How would you like to submit this report?") },
+        title = { Text("Send Report") },
+        text = { Text("Choose how you would like to send the report.") },
         confirmButton = {
             Column(
                 modifier = Modifier.fillMaxWidth(),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+                horizontalAlignment = Alignment.End
             ) {
                 TextButton(
-                    modifier = Modifier.fillMaxWidth(),
                     onClick = {
-                        val emailIntent = Intent(Intent.ACTION_SENDTO).apply {
-                            data = Uri.parse("mailto:tmahmud547@gmail.com")
-                            putExtra(Intent.EXTRA_SUBJECT, "[OmniGuard] ${reportData.type}: ${reportData.title}")
-                            putExtra(Intent.EXTRA_TEXT, deviceInfo)
+                        val body = """
+                            Type: ${reportData.type}
+                            Title: ${reportData.title}
+                            
+                            Description:
+                            ${reportData.description}
+                            
+                            ---
+                            Device: ${Build.MANUFACTURER} ${Build.MODEL}
+                            Android: ${Build.VERSION.RELEASE} (API ${Build.VERSION.SDK_INT})
+                            App Version: ${BuildConfig.VERSION_NAME}
+                        """.trimIndent()
+                        
+                        val intent = Intent(Intent.ACTION_SENDTO).apply {
+                            data = Uri.parse("mailto:tanim.mahmud.stu@gmail.com")
+                            putExtra(Intent.EXTRA_SUBJECT, "[OmniGuard ${reportData.type}] ${reportData.title}")
+                            putExtra(Intent.EXTRA_TEXT, body)
                         }
-                        context.startActivity(Intent.createChooser(emailIntent, "Send Email"))
+                        context.startActivity(Intent.createChooser(intent, "Send Email"))
                         onDismiss()
                     }
                 ) {
-                    Text("Email Support")
+                    Text("Send via Email")
                 }
+                
                 TextButton(
-                    modifier = Modifier.fillMaxWidth(),
                     onClick = {
-                        val githubTitle = "[${reportData.type.replace(" ", "")}] ${reportData.title}"
-                        val githubBody = Uri.encode(deviceInfo)
-                        val githubIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/TanimStu068/omniguard/issues/new?title=$githubTitle&body=$githubBody"))
-                        context.startActivity(githubIntent)
+                        val url = "https://github.com/TanimStu068/omniguard/issues/new"
+                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                        context.startActivity(intent)
                         onDismiss()
                     }
                 ) {
-                    Text("GitHub Issue")
+                    Text("Open GitHub Issues")
                 }
-            }
-        },
-        dismissButton = {
-            TextButton(onClick = onDismiss) {
-                Text("Cancel")
+                
+                TextButton(onClick = onDismiss) {
+                    Text("Close")
+                }
             }
         }
     )
@@ -431,91 +429,71 @@ fun SettingsItem(
     isGranted: Boolean = false,
     onClick: () -> Unit
 ) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable { onClick() },
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surface
-        ),
-        elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
+    Surface(
+        onClick = onClick,
+        color = MaterialTheme.colorScheme.surface,
+        modifier = Modifier.fillMaxWidth()
     ) {
         Row(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
+                .padding(16.dp)
+                .fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
                 imageVector = icon,
                 contentDescription = null,
-                modifier = Modifier.size(24.dp),
-                tint = MaterialTheme.colorScheme.primary
+                tint = MaterialTheme.colorScheme.primary,
+                modifier = Modifier.size(24.dp)
             )
+            
             Spacer(modifier = Modifier.width(16.dp))
+            
             Column(modifier = Modifier.weight(1f)) {
                 Text(
                     text = title,
                     style = MaterialTheme.typography.bodyLarge,
-                    fontWeight = FontWeight.Medium
+                    fontWeight = FontWeight.SemiBold
                 )
                 Text(
                     text = description,
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
+            
             if (isPermission) {
-                Icon(
-                    imageVector = if (isGranted) Icons.Default.CheckCircle else Icons.Default.Warning,
-                    contentDescription = null,
-                    tint = if (isGranted) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.error
-                )
+                if (isGranted) {
+                    Icon(
+                        imageVector = Icons.Default.CheckCircle,
+                        contentDescription = "Granted",
+                        tint = androidx.compose.ui.graphics.Color(0xFF4CAF50),
+                        modifier = Modifier.size(20.dp)
+                    )
+                } else {
+                    Icon(
+                        imageVector = Icons.Default.Error,
+                        contentDescription = "Not Granted",
+                        tint = MaterialTheme.colorScheme.error,
+                        modifier = Modifier.size(20.dp)
+                    )
+                }
             } else {
                 Icon(
                     imageVector = Icons.Default.ChevronRight,
                     contentDescription = null,
-                    tint = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f)
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.size(20.dp)
                 )
             }
         }
     }
 }
 
-private fun checkForUpdates(
-    context: Context,
-    onResult: (Boolean, String?, String?) -> Unit
-) {
-    val currentVersion = "1.0.0"
-    val url = "https://api.github.com/repos/TanimStu068/omniguard/releases/latest"
-
-    Thread {
-        try {
-            val connection = java.net.URL(url).openConnection() as java.net.HttpURLConnection
-            connection.requestMethod = "GET"
-            connection.setRequestProperty("User-Agent", "OmniGuard-App")
-            connection.connect()
-
-            if (connection.responseCode == 200) {
-                val response = connection.inputStream.bufferedReader().readText()
-                val json = org.json.JSONObject(response)
-                val latestVersion = json.getString("tag_name").removePrefix("v")
-                val releaseNotes = json.optString("body", "No release notes available")
-                val hasUpdate = latestVersion != currentVersion
-
-                android.os.Handler(android.os.Looper.getMainLooper()).post {
-                    onResult(hasUpdate, latestVersion, releaseNotes)
-                }
-            } else {
-                android.os.Handler(android.os.Looper.getMainLooper()).post {
-                    onResult(false, null, null)
-                }
-            }
-            connection.disconnect()
-        } catch (e: Exception) {
-            android.os.Handler(android.os.Looper.getMainLooper()).post {
-                onResult(false, null, null)
-            }
-        }
-    }.start()
+fun checkForUpdates(onResult: (Boolean, String?, String?) -> Unit) {
+    // This is a mock update check. In a real app, you'd call a server/GitHub API.
+    // For now, let's assume no update is available.
+    android.os.Handler(android.os.Looper.getMainLooper()).postDelayed({
+        onResult(false, null, null)
+    }, 2000)
 }

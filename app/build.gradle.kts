@@ -14,8 +14,8 @@ android {
         applicationId = "com.example.omniguard"
         minSdk = 24
         targetSdk = 34
-        versionCode = 2
-        versionName = "1.0.1"
+        versionCode = 3
+        versionName = "1.0.2"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -23,26 +23,46 @@ android {
         }
     }
 
+    signingConfigs {
+        create("release") {
+            storeFile = file("/home/tanim-mahmud/Desktop/omniguard.jks")
+            storePassword = "127AB?+36"
+            keyAlias = "omniguard"
+            keyPassword = "127AB?+36"
+            enableV1Signing = true
+            enableV2Signing = true
+        }
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = true
             isShrinkResources = true
+            signingConfig = signingConfigs.getByName("release")
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
         }
+        debug {
+            signingConfig = signingConfigs.getByName("release")
+        }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+
     kotlinOptions {
         jvmTarget = "11"
     }
+
     buildFeatures {
         compose = true
+        buildConfig = true
     }
+
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
@@ -62,37 +82,37 @@ dependencies {
     implementation(libs.androidx.compose.material3)
     implementation(libs.compose.window.size)
     implementation(libs.compose.icons.extended)
-    
+
     // Architecture Components
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.androidx.navigation.compose)
-    
+
     // Dependency Injection
     implementation(libs.hilt.android)
     implementation(libs.hilt.navigation.compose)
     implementation(libs.hilt.work)
     ksp(libs.hilt.compiler)
     ksp(libs.hilt.ext.compiler)
-    
+
     // Coroutines
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
-    
+
     // Database - Room
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
     ksp(libs.room.compiler)
-    
+
     // Charts - MPAndroidChart
     implementation(libs.mpandroidchart)
-    
+
     // Permissions Helper
     implementation(libs.accompanist.permissions)
     implementation(libs.accompanist.systemuicontroller)
-    
+
     // WorkManager for Background Tasks
     implementation(libs.work.runtime.ktx)
-    
+
     // DataStore for Preferences
     implementation(libs.datastore.preferences)
 

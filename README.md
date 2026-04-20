@@ -15,15 +15,15 @@
 
 | Dashboard | Sentinel | Performance - Storage |
 |-----------|----------|----------------------|
-| ![Dashboard](dashboard.png) | ![Sentinel](sentinel.png) | ![Storage](storage.png) |
+| ![Dashboard](dashboard_omniguard.png) | ![Sentinel](sentinel.png) | ![Storage](performance_storage.png) |
 
 | Performance - RAM | Performance - Battery | Performance - Unused Apps |
 |-------------------|----------------------|--------------------------|
-| ![RAM](ram.png) | ![Battery](battery.png) | ![Unused Apps](unused_apps.png) |
+| ![RAM](performance_ram.png) | ![Battery](performance_battery.png) | ![Unused Apps](performance_unusedapps.png) |
 
 | Settings | App Detail (High Risk) | App Detail (Medium Risk) |
 |----------|------------------------|--------------------------|
-| ![Settings](settings.png) | ![High Risk](high_risk.png) | ![Medium Risk](medium_risk.png) |
+| ![Settings](settings.png) | ![High Risk](app_detail_hish_risk.png) | ![Medium Risk](app_detail_medium_rish.png) |
 
 ---
 

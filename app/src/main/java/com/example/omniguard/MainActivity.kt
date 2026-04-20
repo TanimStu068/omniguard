@@ -20,7 +20,8 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        
+
+
         // Ensure channel is created for notifications
         NotificationHelper.createNotificationChannel(this)
 

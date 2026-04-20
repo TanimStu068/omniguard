@@ -1,29 +1,10 @@
 package com.example.omniguard.presentation.theme
 
-import android.os.Build
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-
-private val LightColorScheme = lightColorScheme(
-    primary = PrimaryGreen,
-    onPrimary = Color.White,
-    primaryContainer = PrimaryLightGreen,
-    onPrimaryContainer = PrimaryDarkGreen,
-    secondary = PrimaryGreen,
-    onSecondary = Color.White,
-    secondaryContainer = PrimaryLightGreen,
-    onSecondaryContainer = PrimaryDarkGreen,
-    background = BackgroundLight,
-    onBackground = Neutral900,
-    surface = SurfaceLight,
-    onSurface = Neutral900,
-    error = RiskCritical,
-    onError = Color.White
-)
 
 private val DarkColorScheme = darkColorScheme(
     primary = PrimaryGreen,
@@ -44,32 +25,22 @@ private val DarkColorScheme = darkColorScheme(
 
 @Composable
 fun OmniGuardTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
-    dynamicColor: Boolean = true,
+    darkTheme: Boolean = true, // Force dark theme
+    dynamicColor: Boolean = false, // Disable dynamic color to keep your specific dark theme
     content: @Composable () -> Unit
 ) {
     val systemUiController = rememberSystemUiController()
 
-    if (darkTheme) {
+    // Always use dark system bars
+    SideEffect {
         systemUiController.setSystemBarsColor(
             color = BackgroundDark,
             darkIcons = false
         )
-    } else {
-        systemUiController.setSystemBarsColor(
-            color = BackgroundLight,
-            darkIcons = true
-        )
     }
 
-    val colorScheme = when {
-        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
-            val context = LocalContext.current
-            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
-        }
-        darkTheme -> DarkColorScheme
-        else -> LightColorScheme
-    }
+    // Always use your DarkColorScheme
+    val colorScheme = DarkColorScheme
 
     MaterialTheme(
         colorScheme = colorScheme,

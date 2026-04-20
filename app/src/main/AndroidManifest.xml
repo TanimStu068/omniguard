@@ -39,7 +39,7 @@
     <uses-feature android:name="android.hardware.microphone" android:required="false" />
 
     <application
-        android:name="com.example.omniguard.OmniGuardApplication"
+        android:name="com.tanim.omniguard.OmniGuardApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -50,7 +50,7 @@
         android:theme="@style/Theme.OmniGuard">
 
         <activity
-            android:name="com.example.omniguard.MainActivity"
+            android:name="com.tanim.omniguard.MainActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.OmniGuard">

@@ -1,0 +1,19 @@
+# Built files
+build/
+app/build/
+*.iml
+.idea/
+.gradle/
+local.properties
+
+# Keystore files (IMPORTANT - keep private!)
+*.jks
+*.keystore
+keystore.properties
+
+# OS files
+.DS_Store
+*.swp
+
+# Logs
+*.log

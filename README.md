@@ -64,19 +64,7 @@
 
 ---
 
-## 🚀 Installation
 
-### Download APK
-1. Go to [Releases](https://github.com/TanimStu068/omniguard/releases)
-2. Download the latest APK
-3. Enable "Install from unknown sources" in Settings
-4. Open the APK file and tap Install
-
-### Or Build from Source
-```bash
-# Clone the repository
-git clone https://github.com/TanimStu068/omniguard.git
-cd omniguard
 
 # Build debug APK
 ./gradlew assembleDebug
@@ -172,19 +160,14 @@ Select V1 and V2 signature versions
 
 Click Finish
 
-📧 Contact
-Developer: Tanim Mahmud
-
-Email: tanim.mahmud.stu@gmail.com
-
-GitHub: TanimStu068
 
 CUET: 4th Year, CSE Department
 
-🙏 Acknowledgments
-Jetpack Compose team for modern UI toolkit
 
-Dagger Hilt for dependency injection
+## 📄 License
 
-Android Open Source Project
+Copyright © 2026 Tanim Mahmud. All rights reserved.
 
+This repository is publicly available for viewing and portfolio purposes.
+The source code may not be copied, modified, distributed, or reused
+without prior written permission.

@@ -82,31 +82,69 @@ Background Tasks	WorkManager
 Charts	MPAndroidChart
 Permissions	Accompanist Permissions
 Async	Kotlin Coroutines
-Project Structure
-text
+
+## 🏗️ Architecture
+
+### Tech Stack
+
+| Layer | Technology |
+|---|---|
+| UI | Jetpack Compose (Material 3) |
+| State Management | Kotlin Flow + StateFlow |
+| Dependency Injection | Dagger Hilt |
+| Database | Room |
+| Background Tasks | WorkManager |
+| Charts | MPAndroidChart |
+| Permissions | Accompanist Permissions |
+| Async | Kotlin Coroutines |
+
+### Project Structure
+
+```text
 app/src/main/java/com/example/omniguard/
-├── di/                      # Dependency Injection modules
+├── di/
+│   └── Dependency Injection modules
 ├── data/
-│   ├── local/               # Room database & entities
-│   └── repository/          # Repository implementations
+│   ├── local/
+│   │   └── Room database & entities
+│   └── repository/
+│       └── Repository implementations
 ├── domain/
-│   ├── model/               # Data models
-│   └── usecase/             # Business logic use cases
+│   ├── model/
+│   │   └── Data models
+│   └── usecase/
+│       └── Business logic use cases
 ├── presentation/
-│   ├── components/          # Reusable Composables
-│   ├── screens/             # UI Screens
-│   ├── theme/               # Material 3 theming
-│   ├── navigation/          # Compose Navigation
-│   └── viewmodel/           # ViewModels (Hilt)
+│   ├── components/
+│   │   └── Reusable Composables
+│   ├── screens/
+│   │   └── UI screens
+│   ├── theme/
+│   │   └── Material 3 theming
+│   ├── navigation/
+│   │   └── Compose Navigation
+│   └── viewmodel/
+│       └── ViewModels
 ├── service/
-│   └── worker/              # WorkManager workers
-└── utils/                   # Utility classes
-Architecture Flow
-text
-UI Layer (Compose) → ViewModel → UseCase → Repository → Data Source
-                                      ↓
-                                 Native Android APIs
-                              (PackageManager, etc.)
+│   └── worker/
+│       └── WorkManager workers
+└── utils/
+    └── Utility classes
+```
+
+UI Layer (Jetpack Compose)
+        ↓
+    ViewModel
+        ↓
+     UseCase
+        ↓
+   Repository
+        ↓
+   Data Source
+        ↓
+ Native Android APIs
+ (PackageManager, etc.)
+
 🔐 Permissions Required
 Permission	Purpose	User Benefit
 QUERY_ALL_PACKAGES	Display all installed apps	See every app that might access your data
@@ -133,32 +171,6 @@ Score	Rating	Message
 70-89	Good	Some improvements possible
 50-69	Fair	Security risks detected
 0-49	Poor	Immediate attention needed
-🛠️ Development
-Build Commands
-bash
-# Build debug APK
-./gradlew assembleDebug
-
-# Build release APK
-./gradlew assembleRelease
-
-# Run tests
-./gradlew test
-
-# Run instrumentation tests
-./gradlew connectedAndroidTest
-Generate Signed APK
-Build → Generate Signed Bundle / APK
-
-Select APK → Next
-
-Create or select keystore
-
-Select release build type
-
-Select V1 and V2 signature versions
-
-Click Finish
 
 
 CUET: 4th Year, CSE Department

@@ -14,8 +14,8 @@
 ## 📱 Screenshots
 
 <p align="center">
-  <img src="dashboard_omniguard.png" width="50%" alt="Dashboard" />
-  <img src="sentinel.png" width="50%" alt="Sentinel" />
+  <img src="dashboard_omniguard.png" width="49%" alt="Dashboard" />
+  <img src="sentinel.png" width="49%" alt="Sentinel" />
 </p>
 
 <p align="center">

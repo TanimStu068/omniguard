@@ -13,18 +13,29 @@
 
 ## 📱 Screenshots
 
-| Dashboard | Sentinel | Performance - Storage |
-|-----------|----------|----------------------|
-| ![Dashboard](dashboard_omniguard.png) | ![Sentinel](sentinel.png) | ![Storage](performance_storage.png) |
+<p align="center">
+  <img src="dashboard_omniguard.png" width="48%" alt="Dashboard" />
+  <img src="sentinel.png" width="48%" alt="Sentinel" />
+</p>
 
-| Performance - RAM | Performance - Battery | Performance - Unused Apps |
-|-------------------|----------------------|--------------------------|
-| ![RAM](performance_ram.png) | ![Battery](performance_battery.png) | ![Unused Apps](performance_unusedapps.png) |
+<p align="center">
+  <img src="performance_storage.png" width="48%" alt="Performance - Storage" />
+  <img src="performance_ram.png" width="48%" alt="Performance - RAM" />
+</p>
 
-| Settings | App Detail (High Risk) | App Detail (Medium Risk) |
-|----------|------------------------|--------------------------|
-| ![Settings](settings.png) | ![High Risk](app_detail_hish_risk.png) | ![Medium Risk](app_detail_medium_rish.png) |
+<p align="center">
+  <img src="performance_battery.png" width="48%" alt="Performance - Battery" />
+  <img src="performance_unusedapps.png" width="48%" alt="Performance - Unused Apps" />
+</p>
 
+<p align="center">
+  <img src="settings.png" width="48%" alt="Settings" />
+  <img src="app_detail_hish_risk.png" width="48%" alt="App Detail - High Risk" />
+</p>
+
+<p align="center">
+  <img src="app_detail_medium_rish.png" width="48%" alt="App Detail - Medium Risk" />
+</p>
 ---
 
 ## ✨ Features
@@ -64,13 +75,6 @@
 
 ---
 
-
-
-# Build debug APK
-./gradlew assembleDebug
-
-# Build release APK (signed)
-./gradlew assembleRelease
 🏗️ Architecture
 Tech Stack
 Layer	Technology
@@ -145,32 +149,51 @@ UI Layer (Jetpack Compose)
  Native Android APIs
  (PackageManager, etc.)
 
-🔐 Permissions Required
-Permission	Purpose	User Benefit
-QUERY_ALL_PACKAGES	Display all installed apps	See every app that might access your data
-PACKAGE_USAGE_STATS	Identify unused apps	Clean up unused apps and save storage
-READ_EXTERNAL_STORAGE	Analyze storage usage	Understand what's taking up space
-POST_NOTIFICATIONS	Alert about security findings	Stay informed about privacy risks
-📊 Security Score Algorithm
-text
+## 🔐 Permissions Required
+
+| Permission | Purpose | User Benefit |
+|---|---|---|
+| `QUERY_ALL_PACKAGES` | Display all installed apps | See every app that might access your data |
+| `PACKAGE_USAGE_STATS` | Identify unused apps | Find unused apps and manage storage |
+| `READ_EXTERNAL_STORAGE` | Analyze storage usage | Understand what's taking up storage |
+| `POST_NOTIFICATIONS` | Alert about security findings | Stay informed about privacy risks |
+
+---
+
+## 📊 Security Score Algorithm
+
+### Base Score
+
+```text
 Base Score = 100
+```
 
-Penalties:
-├── -10 per app with always-on location permission
-├── -5 per app with microphone access
-├── -3 per app with camera access
-├── -15 per detected shadow app
-├── -20 per app with high background activity
-├── -5 per unused app (30+ days)
-└── -10 if storage is below 15% free
+### Penalties
 
+```text
+├── -10  per app with always-on location permission
+├── -5   per app with microphone access
+├── -3   per app with camera access
+├── -15  per detected shadow app
+├── -20  per app with high background activity
+├── -5   per unused app (30+ days)
+└── -10  if storage is below 15% free
+```
+
+### Final Score
+
+```text
 Final Score = max(0, min(100, Base Score - Total Penalties))
-Score Interpretation
-Score	Rating	Message
-90-100	Excellent	Your device is very secure
-70-89	Good	Some improvements possible
-50-69	Fair	Security risks detected
-0-49	Poor	Immediate attention needed
+```
+
+### Score Interpretation
+
+| Score | Rating | Message |
+|---:|---|---|
+| 90–100 | Excellent | Your device is very secure |
+| 70–89 | Good | Some improvements possible |
+| 50–69 | Fair | Security risks detected |
+| 0–49 | Poor | Immediate attention needed |
 
 
 CUET: 4th Year, CSE Department

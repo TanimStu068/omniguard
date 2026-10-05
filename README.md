@@ -14,27 +14,27 @@
 ## 📱 Screenshots
 
 <p align="center">
-  <img src="dashboard_omniguard.png" width="48%" alt="Dashboard" />
-  <img src="sentinel.png" width="48%" alt="Sentinel" />
+  <img src="dashboard_omniguard.png" width="50%" alt="Dashboard" />
+  <img src="sentinel.png" width="50%" alt="Sentinel" />
 </p>
 
 <p align="center">
-  <img src="performance_storage.png" width="48%" alt="Performance - Storage" />
-  <img src="performance_ram.png" width="48%" alt="Performance - RAM" />
+  <img src="performance_storage.png" width="50%" alt="Performance - Storage" />
+  <img src="performance_ram.png" width="50%" alt="Performance - RAM" />
 </p>
 
 <p align="center">
-  <img src="performance_battery.png" width="48%" alt="Performance - Battery" />
-  <img src="performance_unusedapps.png" width="48%" alt="Performance - Unused Apps" />
+  <img src="performance_battery.png" width="50%" alt="Performance - Battery" />
+  <img src="performance_unusedapps.png" width="50%" alt="Performance - Unused Apps" />
 </p>
 
 <p align="center">
-  <img src="settings.png" width="48%" alt="Settings" />
-  <img src="app_detail_hish_risk.png" width="48%" alt="App Detail - High Risk" />
+  <img src="settings.png" width="50%" alt="Settings" />
+  <img src="app_detail_hish_risk.png" width="50%" alt="App Detail - High Risk" />
 </p>
 
 <p align="center">
-  <img src="app_detail_medium_rish.png" width="48%" alt="App Detail - Medium Risk" />
+  <img src="app_detail_medium_rish.png" width="50%" alt="App Detail - Medium Risk" />
 </p>
 ---
 
